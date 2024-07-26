@@ -1,0 +1,82 @@
+$background-color1: #2a2a2a;
+$background-color2: #1a1a1a;
+$background-color3: #4a4a4a;
+$color1: #ffffff;
+
+.main-section {
+  background-color: $background-color1;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  color: $color1;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+}
+
+.header input[type="text"] {
+    height: 25px;
+    width: 500px;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+
+.header input[type="button"] {
+    height: 30px;
+    width: 70px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.song-list {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+}
+
+.song-list-entry {
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 120px;
+  height: 180px;
+}
+
+.song-list-entry:hover {
+  cursor: pointer;
+}
+
+.album-art {
+  width: 120px;
+  height: 120px;
+}
+
+.play-bar {
+  display: flex;
+  position: fixed;
+  bottom: 0px;
+  padding: 20px;
+  width: 100%;
+  background-color: $background-color2;
+  color: $color1;
+}
+
+.info-bar {
+  margin-left: 10px;
+  width: 500px;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.play-bar input[type="range"] {
+  width: 500px;
+}
+
+.controls-bar {
+  font-size: 1.5em;
+}
