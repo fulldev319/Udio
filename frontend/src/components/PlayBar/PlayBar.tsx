@@ -1,13 +1,7 @@
 import React from 'react';
 import { MdPlayArrow, MdPause, MdFastForward, MdFastRewind } from 'react-icons/md';
 import NotImplemented from '../NotImplemented/NotImplemented';
-
-type Song = {
-  title: string;
-  artist: string;
-  album_art_path: string;
-  song_path: string;
-};
+import { Song } from '../../shared/types';
 
 function PlayBar(props: { song: Song }) {
   const [playProgress, setPlayProgress] = React.useState<number>(0);

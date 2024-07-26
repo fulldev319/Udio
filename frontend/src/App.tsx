@@ -1,13 +1,7 @@
 import React from 'react';
 import { SongList, PlayBar, Header } from './components';
+import { Song } from './shared/types';
 import './App.scss';
-
-type Song = {
-  title: string;
-  artist: string;
-  album_art_path: string;
-  song_path: string;
-};
 
 function App() {
   const [selectedSong, setSelectedSong] = React.useState<number | null>(null);

@@ -1,12 +1,6 @@
 import React from 'react';
 import NotImplemented from '../NotImplemented/NotImplemented';
-
-type Song = {
-  title: string;
-  artist: string;
-  album_art_path: string;
-  song_path: string;
-};
+import { Song } from '../../shared/types';
 
 function SongListEntry(props: { song: Song; onSelect: () => void }) {
   return (

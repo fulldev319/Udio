@@ -1,12 +1,6 @@
 import React from 'react';
 import SongListEntry from '../SongListEntry/SongListEntry';
-
-type Song = {
-  title: string;
-  artist: string;
-  album_art_path: string;
-  song_path: string;
-};
+import { Song } from '../../shared/types';
 
 function SongList(props: { songs: Song[]; onSelect: (which: number) => void }) {
   return (
