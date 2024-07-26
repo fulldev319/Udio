@@ -1,0 +1,32 @@
+import React from 'react';
+import NotImplemented from '../NotImplemented/NotImplemented';
+
+type Song = {
+  title: string;
+  artist: string;
+  album_art_path: string;
+  song_path: string;
+};
+
+function SongListEntry(props: { song: Song; onSelect: () => void }) {
+  return (
+    <div className="song-list-entry" onClick={props.onSelect}>
+      <img
+        className="album-art"
+        src={"http://localhost:8000/api/static/" + props.song.album_art_path}
+      />
+      <div>{props.song.title}</div>
+      <div>{props.song.artist}</div>
+      <a
+        onClick={(e) => {
+          NotImplemented();
+          e.stopPropagation();
+        }}
+      >
+        Add to Playlist
+      </a>
+    </div>
+  );
+}
+
+export default SongListEntry;
