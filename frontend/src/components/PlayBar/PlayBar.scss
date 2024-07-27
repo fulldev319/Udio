@@ -1,0 +1,28 @@
+@import '../../shared/styles/variables';
+
+.play-bar {
+  display: flex;
+  position: fixed;
+  bottom: 0px;
+  padding: 20px;
+  width: 100%;
+  background-color: $background-color2;
+  color: $color1;
+
+  .info-bar {
+    margin-left: 10px;
+    width: 500px;
+  }
+
+  .button {
+    cursor: pointer;
+  }
+
+  input[type="range"] {
+    width: 500px;
+  }
+
+  .controls-bar {
+    font-size: 1.5em;
+  }
+}

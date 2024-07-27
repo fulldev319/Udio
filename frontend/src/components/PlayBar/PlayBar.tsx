@@ -2,6 +2,7 @@ import React from 'react';
 import { MdPlayArrow, MdPause, MdFastForward, MdFastRewind } from 'react-icons/md';
 import NotImplemented from '../NotImplemented/NotImplemented';
 import { Song } from '../../shared/types';
+import './PlayBar.scss';
 
 function PlayBar(props: { song: Song }) {
   const [playProgress, setPlayProgress] = React.useState<number>(0);

@@ -1,6 +1,7 @@
 import React from 'react';
 import SongListEntry from '../SongListEntry/SongListEntry';
 import { Song } from '../../shared/types';
+import './SongList.scss';
 
 function SongList(props: { songs: Song[]; onSelect: (which: number) => void }) {
   return (

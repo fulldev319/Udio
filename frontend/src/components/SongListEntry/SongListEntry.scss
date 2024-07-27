@@ -1,0 +1,15 @@
+.song-list-entry {
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 120px;
+  height: 180px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .album-art {
+    width: 120px;
+    height: 120px;
+  }
+}
