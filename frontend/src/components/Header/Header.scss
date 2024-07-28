@@ -2,6 +2,8 @@
 
 .header {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   input[type="text"] {
     height: 25px;
@@ -29,6 +31,6 @@
   }
 
   .logo {
-    margin-right: $spacing-large;
+    text-transform: uppercase;
   }
 }
