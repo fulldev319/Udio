@@ -19,14 +19,16 @@ function App() {
       });
   };
 
+  const handleAddToPlaylist = (song: Song) => {
+    // add to playlist
+  };
+
+
   return (
     <div className="App">
       <div className="main-section">
         <Header onSearch={fetchSongs} />
-        <SongList
-          songs={songs}
-          onSelect={(idx) => setSelectedSong(idx)}
-        />
+        <SongList songs={songs} onSelect={(i) => setSelectedSong(i)} onAddToPlaylist={handleAddToPlaylist} />
       </div>
       {selectedSong === null ? "" : <PlayBar song={songs[selectedSong]} />}
     </div>

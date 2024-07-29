@@ -1,10 +1,13 @@
 import os
 
-from django.http import FileResponse, JsonResponse
-from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from django.http import FileResponse
 from .models import Song
+from .serializers import SongSerializer
 
 
+@api_view(['GET'])
 def fetch_songs(request):
     query = request.GET.get('q', '')
     if query:
@@ -12,18 +15,8 @@ def fetch_songs(request):
     else:
         songs = Song.objects.all()
     
-    songs_json = {
-        "songs": [
-            {
-                "title": s.title,
-                "artist": s.artist,
-                "song_path": s.song_path,
-                "album_art_path": s.album_art_path,
-            }
-            for s in songs
-        ]
-    }
-    return JsonResponse(songs_json, headers={"Access-Control-Allow-Origin": "*"})
+    serializer = SongSerializer(songs, many=True)
+    return Response({"songs": serializer.data}, headers={"Access-Control-Allow-Origin": "*"})
 
 
 def static(request, fname):

@@ -3,14 +3,22 @@ import SongListEntry from '../SongListEntry/SongListEntry';
 import { Song } from '../../shared/types';
 import './SongList.scss';
 
-function SongList(props: { songs: Song[]; onSelect: (which: number) => void }) {
+interface SongListProps {
+  songs: Song[];
+  onSelect: (which: number) => void;
+  onAddToPlaylist: (song: Song) => void;
+}
+
+
+function SongList({ songs, onSelect, onAddToPlaylist }: SongListProps) {
   return (
     <div className="song-list">
-      {props.songs.map((song, i) => (
+      {songs.map((song, i) => (
         <SongListEntry
           key={`${i}-${song.song_path}`}
           song={song}
-          onSelect={() => props.onSelect(i)}
+          onSelect={() => onSelect(i)}
+          onAddToPlaylist={onAddToPlaylist}
         />
       ))}
     </div>
