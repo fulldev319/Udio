@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SongList, PlayBar, Header } from './components';
 import { Song } from './shared/types';
 import './App.scss';
 
 function App() {
-  const [selectedSong, setSelectedSong] = React.useState<number | null>(null);
-  const [songs, setSongs] = React.useState<Song[]>([]);
+  const [selectedSong, setSelectedSong] = useState<number | null>(null);
+  const [songs, setSongs] = useState<Song[]>([]);
 
-  React.useEffect(() => {
-    fetch("http://localhost:8000/api/all_songs", {})
-      .then((resp) => resp.json())
-      .then((songs) => {
-        setSongs(songs.songs);
-      });
+  useEffect(() => {
+    fetchSongs('');
   }, []);
+
+  const fetchSongs = (query: string) => {
+    fetch(`http://localhost:8000/api/fetch_songs?q=${query}`)
+      .then((resp) => resp.json())
+      .then((data) => {
+        setSongs(data.songs);
+      });
+  };
 
   return (
     <div className="App">
       <div className="main-section">
-        <Header />
+        <Header onSearch={fetchSongs} />
         <SongList
           songs={songs}
           onSelect={(idx) => setSelectedSong(idx)}

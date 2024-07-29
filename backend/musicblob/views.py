@@ -1,14 +1,17 @@
 import os
 
 from django.http import FileResponse, JsonResponse
-
-from musicblob import models
-
-from django.contrib import auth
+from django.http import JsonResponse
+from .models import Song
 
 
-def all_songs(request):
-    songs = models.Song.objects.all()
+def fetch_songs(request):
+    query = request.GET.get('q', '')
+    if query:
+        songs = Song.objects.filter(title__icontains=query)
+    else:
+        songs = Song.objects.all()
+    
     songs_json = {
         "songs": [
             {

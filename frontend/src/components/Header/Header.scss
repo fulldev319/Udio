@@ -4,33 +4,77 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 10px;
+  background-color: $background-color2;
+  color: $color1;
+
+  h1 {
+    font-size: 1.5em;
+    margin: 0;
+    text-transform: uppercase;
+  }
 
   input[type="text"] {
     height: 25px;
-    width: 500px;
-    padding-left: $spacing-medium;
-    border-radius: $border-radius-medium;
+    width: 300px;
+    padding-left: 10px;
+    border-radius: 10px;
+    margin-right: 10px;
   }
 
   input[type="button"] {
     height: 30px;
     width: 70px;
-    border-radius: $border-radius-medium;
+    border-radius: 10px;
     cursor: pointer;
+    margin-right: 10px;
   }
 
   a {
+    margin-right: 10px;
     cursor: pointer;
-    margin-left: $spacing-medium;
-    color: $color1;
     text-decoration: none;
+    color: $color1;
 
     &:hover {
       text-decoration: underline;
     }
   }
 
-  .logo {
-    text-transform: uppercase;
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    input[type="text"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    input[type="button"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    a {
+      margin: 5px 0;
+    }
+  }
+
+  @media (max-width: 575px) {
+    h1 {
+      font-size: 1.2em;
+    }
+
+    input[type="text"] {
+      width: 100%;
+    }
+
+    input[type="button"] {
+      width: 100%;
+    }
+
+    a {
+      margin: 5px 0;
+    }
   }
 }
