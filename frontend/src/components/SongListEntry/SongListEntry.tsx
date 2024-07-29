@@ -9,10 +9,12 @@ function SongListEntry(props: { song: Song; onSelect: () => void }) {
       <img
         className="album-art"
         src={"http://localhost:8000/api/static/" + props.song.album_art_path}
+        alt={`${props.song.title} album art`}
       />
-      <div>{props.song.title}</div>
-      <div>{props.song.artist}</div>
+      <div className="song-title">{props.song.title}</div>
+      <div className="song-artist">{props.song.artist}</div>
       <a
+        className="add-to-playlist"
         onClick={(e) => {
           NotImplemented();
           e.stopPropagation();
