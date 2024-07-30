@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import NotImplemented from '../NotImplemented/NotImplemented';
+import { Link } from 'react-router-dom';
 import './Header.scss';
 
 interface HeaderProps {
@@ -37,8 +37,8 @@ function Header({ onSearch }: HeaderProps) {
         />
       </div>
       <div>
-        <a onClick={NotImplemented}>Sign Up</a>
-        <a onClick={NotImplemented}>Login</a>
+        <Link to="/signup">Sign Up</Link>
+        <Link to="/login">Login</Link>
       </div>
     </div>
   );

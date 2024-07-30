@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SongList, PlayBar, Header } from './components';
+import SignUp from './components/SignUp/SignUp';
 import { Song } from './shared/types';
 import './App.scss';
 
@@ -23,15 +25,22 @@ function App() {
     // add to playlist
   };
 
-
   return (
-    <div className="App">
-      <div className="main-section">
+    <Router>
+      <div className="App">
         <Header onSearch={fetchSongs} />
-        <SongList songs={songs} onSelect={(i) => setSelectedSong(i)} onAddToPlaylist={handleAddToPlaylist} />
+        <Routes>
+          <Route path="/" element={
+            <div className="main-section">
+              <SongList songs={songs} onSelect={(i) => setSelectedSong(i)} onAddToPlaylist={handleAddToPlaylist} />
+              {selectedSong === null ? "" : <PlayBar song={songs[selectedSong]} />}
+            </div>
+          } />
+          <Route path="/signup" element={<SignUp />} />
+          {/* Add other routes here */}
+        </Routes>
       </div>
-      {selectedSong === null ? "" : <PlayBar song={songs[selectedSong]} />}
-    </div>
+    </Router>
   );
 }
 
