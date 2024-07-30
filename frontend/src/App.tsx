@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SongList, PlayBar, Header } from './components';
 import SignUp from './components/SignUp/SignUp';
+import Login from './components/Login/Login';
 import { Song } from './shared/types';
 import './App.scss';
 
 function App() {
   const [selectedSong, setSelectedSong] = useState<number | null>(null);
   const [songs, setSongs] = useState<Song[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem('token'));
 
   useEffect(() => {
     fetchSongs('');
@@ -33,11 +35,11 @@ function App() {
           <Route path="/" element={
             <div className="main-section">
               <SongList songs={songs} onSelect={(i) => setSelectedSong(i)} onAddToPlaylist={handleAddToPlaylist} />
-              {selectedSong === null ? "" : <PlayBar song={songs[selectedSong]} />}
+              {isLoggedIn && selectedSong !== null ? <PlayBar song={songs[selectedSong]} /> : null}
             </div>
           } />
           <Route path="/signup" element={<SignUp />} />
-          {/* Add other routes here */}
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>

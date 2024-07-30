@@ -1,42 +1,42 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignUp.scss';
+import './Login.scss';
 
-const SignUp = () => {
+const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSignUp = async () => {
+  const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:8000/auth/register', {
+      const response = await fetch('http://localhost:8000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username,
-          email,
           password,
         }),
       });
 
       if (response.ok) {
-        setMessage('User registered successfully');
-        navigate('/login');
+        const data = await response.json();
+        localStorage.setItem('token', data.access);
+        setMessage('Login successful');
+        navigate('/');
       } else {
-        setMessage('Failed to register user');
+        setMessage('Failed to login');
       }
     } catch (error) {
-      setMessage('Failed to register user');
+      setMessage('Failed to login');
     }
   };
 
   return (
-    <div className="sign-up">
-      <h2>Sign Up</h2>
+    <div className="login">
+      <h2>Login</h2>
       <input
         type="text"
         placeholder="Username"
@@ -44,21 +44,15 @@ const SignUp = () => {
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleSignUp}>Sign Up</button>
+      <button onClick={handleLogin}>Login</button>
       {message && <p>{message}</p>}
     </div>
   );
 };
 
-export default SignUp;
+export default Login;
