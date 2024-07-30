@@ -13,12 +13,14 @@ function App() {
   const [playlist, setPlaylist] = useState<Song[]>([]);
   const [page, setPage] = useState<number>(1); // Current page
   const [totalPages, setTotalPages] = useState<number>(1); // Total number of pages
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
 
   useEffect(() => {
     fetchSongs('', page); // Fetch songs when page changes
   }, [page]);
 
   const fetchSongs = useCallback((query: string, page: number) => {
+    setIsLoading(true); // Set loading state to true
     fetch(`http://localhost:8000/api/fetch_songs?q=${query}&page=${page}&limit=20`)
       .then((resp) => resp.json())
       .then((data) => {
@@ -28,6 +30,7 @@ function App() {
           setSongs((prevSongs) => [...prevSongs, ...data.songs]); // Append songs on subsequent pages
         }
         setTotalPages(data.total_pages);
+        setIsLoading(false); // Set loading state to false
       });
   }, []);
 
@@ -53,7 +56,7 @@ function App() {
 
   const handleScroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      if (page < totalPages) {
+      if (page < totalPages && !isLoading) {
         setPage((prevPage) => prevPage + 1); // Load next page
       }
     }
@@ -62,7 +65,7 @@ function App() {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll, page, totalPages]);
+  }, [handleScroll, page, totalPages, isLoading]);
 
   return (
     <Router>
@@ -74,6 +77,7 @@ function App() {
               <SongList songs={songs} onSelect={handleSelectSong} onAddToPlaylist={handleAddToPlaylist} />
               {isLoggedIn && selectedSong !== null ? <PlayBar song={songs[selectedSong]} /> : null}
               {playlist.length > 0 && <PlayList songs={playlist} onSelect={handleSelectPlaylistSong} onRemove={handleRemoveFromPlaylist} />}
+              {isLoading && <div className="loading-indicator">Loading...</div>}
             </div>
           } />
           <Route path="/signup" element={<SignUp />} />
