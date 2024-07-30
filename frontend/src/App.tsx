@@ -30,6 +30,9 @@ function App() {
 
   const handleRemoveFromPlaylist = (song: Song) => {
     setPlaylist((prevPlaylist) => prevPlaylist.filter((s) => s.id !== song.id));
+    if (selectedSong !== null && songs[selectedSong].id === song.id) {
+      setSelectedSong(null);
+    }
   };
 
   const handleSelectSong = (index: number) => {

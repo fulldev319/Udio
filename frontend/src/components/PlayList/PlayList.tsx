@@ -9,12 +9,19 @@ interface PlaylistProps {
 }
 
 const Playlist: React.FC<PlaylistProps> = ({ songs, onSelect, onRemove }) => {
+
+  const handleRemoveSong = (e: React.MouseEvent, song: Song) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onRemove(song);
+  };
+
   return (
     <div className="playlist">
       <h3>Playlist</h3>
       {songs.map((song, index) => (
-        <div key={index} className="playlist-entry">
-          <div className="song-info" onClick={() => onSelect(song)}>
+        <div key={index} className="playlist-entry" onClick={() => onSelect(song)}>
+          <div className="song-info">
             <img
               className="album-art"
               src={"http://localhost:8000/api/static/" + song.album_art_path}
@@ -25,7 +32,7 @@ const Playlist: React.FC<PlaylistProps> = ({ songs, onSelect, onRemove }) => {
           </div>
           <button
             className="remove-button"
-            onClick={() => onRemove(song)}
+            onClick={(event) => handleRemoveSong(event, song)}
           >
             Remove
           </button>
