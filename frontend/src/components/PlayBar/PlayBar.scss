@@ -27,4 +27,16 @@
   .controls-bar {
     font-size: 1.5em;
   }
+
+  .song-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: $color1;
+  }
+
+  .song-artist {
+    font-size: 0.9em;
+    color: $color2;
+    margin-bottom: 8px;
+  }
 }

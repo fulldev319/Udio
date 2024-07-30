@@ -98,8 +98,8 @@ const PlayBar: React.FC<PlayBarProps> = ({ song }) => {
         src={"http://localhost:8000/api/static/" + song.album_art_path}
       />
       <div className="info-bar">
-        <div>{song.title}</div>
-        <div>{song.artist}</div>
+        <div className="song-title">{song.title}</div>
+        <div className="song-artist">{song.artist}</div>
         <audio
           ref={audioPlayer}
           src={"http://localhost:8000/api/static/" + song.song_path}
