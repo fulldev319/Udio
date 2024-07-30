@@ -1,30 +1,37 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MdPlayArrow, MdPause, MdFastForward, MdFastRewind } from 'react-icons/md';
 import { Song } from '../../shared/types';
 import './PlayBar.scss';
 
-function PlayBar(props: { song: Song }) {
-  const [playProgress, setPlayProgress] = React.useState<number>(0);
-  const [playing, setPlaying] = React.useState<boolean>(false);
+interface PlayBarProps {
+  song: Song;
+}
 
-  const audioPlayer = React.useRef<HTMLAudioElement | null>(null);
-  const seeker = React.useRef<HTMLInputElement>(null);
+const PlayBar: React.FC<PlayBarProps> = ({ song }) => {
+  const [playProgress, setPlayProgress] = useState<number>(0);
+  const [playing, setPlaying] = useState<boolean>(false);
 
-  const playAnimationRef = React.useRef<number | null>(null);
+  const audioPlayer = useRef<HTMLAudioElement | null>(null);
+  const seeker = useRef<HTMLInputElement>(null);
+  const playAnimationRef = useRef<number | null>(null);
 
   const refresh = () => {
-    const currentTime = audioPlayer.current!.currentTime;
-    const progress = currentTime / audioPlayer.current!.duration;
-    setPlayProgress(progress);
-    seeker.current!.value = progress.toString();
-    playAnimationRef.current! = requestAnimationFrame(refresh);
+    if (audioPlayer.current && !isNaN(audioPlayer.current.duration)) {
+      const currentTime = audioPlayer.current.currentTime;
+      const progress = currentTime / audioPlayer.current.duration;
+      setPlayProgress(progress);
+      if (seeker.current) {
+        seeker.current.value = progress.toString();
+      }
+      playAnimationRef.current = requestAnimationFrame(refresh);
+    }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (audioPlayer.current) {
       if (playing) {
         audioPlayer.current.play();
-        playAnimationRef.current! = requestAnimationFrame(refresh);
+        playAnimationRef.current = requestAnimationFrame(refresh);
       } else {
         audioPlayer.current.pause();
         cancelAnimationFrame(playAnimationRef.current!);
@@ -32,9 +39,41 @@ function PlayBar(props: { song: Song }) {
     }
   }, [playing]);
 
+  useEffect(() => {
+    setPlaying(false);
+    setPlayProgress(0);
+    if (seeker.current) {
+      seeker.current.value = '0';
+    }
+    if (audioPlayer.current) {
+      audioPlayer.current.currentTime = 0;
+    }
+  }, [song]);
+
+  useEffect(() => {
+    const handleSongEnd = () => {
+      setPlaying(false);
+      setPlayProgress(0);
+      if (seeker.current) {
+        seeker.current.value = '0';
+      }
+    };
+
+    const audioElem = audioPlayer.current;
+    if (audioElem) {
+      audioElem.addEventListener('ended', handleSongEnd);
+    }
+
+    return () => {
+      if (audioElem) {
+        audioElem.removeEventListener('ended', handleSongEnd);
+      }
+    };
+  }, []);
+
   const seek = () => {
     let progress = parseFloat(seeker.current!.value);
-    if (audioPlayer.current !== null) {
+    if (audioPlayer.current && !isNaN(audioPlayer.current.duration)) {
       audioPlayer.current.currentTime = progress * audioPlayer.current!.duration;
     }
     setPlayProgress(progress);
@@ -56,20 +95,20 @@ function PlayBar(props: { song: Song }) {
     <div className="play-bar">
       <img
         className="album-art"
-        src={"http://localhost:8000/api/static/" + props.song.album_art_path}
+        src={"http://localhost:8000/api/static/" + song.album_art_path}
       />
       <div className="info-bar">
-        <div>{props.song.title}</div>
-        <div>{props.song.artist}</div>
+        <div>{song.title}</div>
+        <div>{song.artist}</div>
         <audio
           ref={audioPlayer}
-          src={"http://localhost:8000/api/static/" + props.song.song_path}
+          src={"http://localhost:8000/api/static/" + song.song_path}
           style={{ display: "none" }}
         />
         <input
           type="range"
           ref={seeker}
-          value={playProgress}
+          value={isNaN(playProgress) ? '0' : playProgress.toString()}
           min="0"
           max="1"
           step="0.001"
@@ -89,6 +128,6 @@ function PlayBar(props: { song: Song }) {
       </div>
     </div>
   );
-}
+};
 
 export default PlayBar;
