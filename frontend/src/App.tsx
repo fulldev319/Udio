@@ -7,9 +7,9 @@ import { Song } from './shared/types';
 import './App.scss';
 
 function App() {
+  const isLoggedIn = !!localStorage.getItem('token');
   const [selectedSong, setSelectedSong] = useState<number | null>(null);
   const [songs, setSongs] = useState<Song[]>([]);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem('token'));
 
   useEffect(() => {
     fetchSongs('');

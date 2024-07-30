@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.scss';
 
 interface HeaderProps {
@@ -7,6 +7,8 @@ interface HeaderProps {
 }
 
 function Header({ onSearch }: HeaderProps) {
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem('token');
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = () => {
@@ -19,9 +21,18 @@ function Header({ onSearch }: HeaderProps) {
     }
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.reload();
+  };
+
   return (
     <div className="header">
-      <h1 className="logo">musicblob</h1>
+      <h1 className="logo" onClick={handleLogoClick}>musicblob</h1>
       <div>
         <input 
           type="text" 
@@ -37,8 +48,14 @@ function Header({ onSearch }: HeaderProps) {
         />
       </div>
       <div>
-        <Link to="/signup">Sign Up</Link>
-        <Link to="/login">Login</Link>
+        {isLoggedIn ? (
+          <a href='/login' onClick={handleLogout}>Logout</a>
+        ) : (
+          <>
+            <Link to="/signup">Sign Up</Link>
+            <Link to="/login">Login</Link>
+          </>
+        )}
       </div>
     </div>
   );
