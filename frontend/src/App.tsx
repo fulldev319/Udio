@@ -71,10 +71,16 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll, page, totalPages, isLoading]);
 
+  const handleSearch = (query: string) => {
+    setSelectedSong(null);
+    setPage(1); 
+    fetchSongs(query, 1);
+  }
+
   return (
     <Router>
       <div className="App">
-        <Header onSearch={(query) => { setPage(1); fetchSongs(query, 1); }} />
+        <Header onSearch={handleSearch} />
         <Routes>
           <Route path="/" element={
             <div className="main-section">
