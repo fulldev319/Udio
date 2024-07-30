@@ -9,18 +9,21 @@ interface SongListProps {
   onAddToPlaylist: (song: Song) => void;
 }
 
-
 function SongList({ songs, onSelect, onAddToPlaylist }: SongListProps) {
   return (
     <div className="song-list">
-      {songs.map((song, i) => (
-        <SongListEntry
-          key={`${i}-${song.song_path}`}
-          song={song}
-          onSelect={() => onSelect(i)}
-          onAddToPlaylist={onAddToPlaylist}
-        />
-      ))}
+      {songs.length === 0 ? (
+        <div className="no-results">No songs found.</div>
+      ) : (
+        songs.map((song, i) => (
+          <SongListEntry
+            key={`${i}-${song.song_path}`}
+            song={song}
+            onSelect={() => onSelect(i)}
+            onAddToPlaylist={onAddToPlaylist}
+          />
+        ))
+      )}
     </div>
   );
 }

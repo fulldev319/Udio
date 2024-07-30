@@ -29,3 +29,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+.no-results {
+  text-align: center;
+  font-size: 1.2em;
+  color: $color1;
+  margin: 20px 0;
+}
