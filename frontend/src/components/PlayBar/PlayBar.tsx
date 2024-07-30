@@ -1,6 +1,5 @@
 import React from 'react';
 import { MdPlayArrow, MdPause, MdFastForward, MdFastRewind } from 'react-icons/md';
-import NotImplemented from '../NotImplemented/NotImplemented';
 import { Song } from '../../shared/types';
 import './PlayBar.scss';
 
@@ -12,6 +11,7 @@ function PlayBar(props: { song: Song }) {
   const seeker = React.useRef<HTMLInputElement>(null);
 
   const playAnimationRef = React.useRef<number | null>(null);
+
   const refresh = () => {
     const currentTime = audioPlayer.current!.currentTime;
     const progress = currentTime / audioPlayer.current!.duration;
@@ -40,6 +40,18 @@ function PlayBar(props: { song: Song }) {
     setPlayProgress(progress);
   };
 
+  const handleRewind = () => {
+    if (audioPlayer.current) {
+      audioPlayer.current.currentTime = Math.max(0, audioPlayer.current.currentTime - 10); // Rewind 10 seconds
+    }
+  };
+
+  const handleFastForward = () => {
+    if (audioPlayer.current) {
+      audioPlayer.current.currentTime = Math.min(audioPlayer.current.duration, audioPlayer.current.currentTime + 10); // Fast forward 10 seconds
+    }
+  };
+
   return (
     <div className="play-bar">
       <img
@@ -64,16 +76,13 @@ function PlayBar(props: { song: Song }) {
           onChange={seek}
         />
         <div className="controls-bar">
-          <a className="button" onClick={NotImplemented}>
+          <a className="button" onClick={handleRewind}>
             <MdFastRewind />
           </a>
-          <a
-            className="button"
-            onClick={() => setPlaying(!playing)}
-          >
+          <a className="button" onClick={() => setPlaying(!playing)}>
             {playing ? <MdPause /> : <MdPlayArrow />}
           </a>
-          <a className="button" onClick={NotImplemented}>
+          <a className="button" onClick={handleFastForward}>
             <MdFastForward />
           </a>
         </div>
