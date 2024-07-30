@@ -11,6 +11,22 @@
   background-color: $background-color2;
   color: $color1;
 
+  .close-button {
+    position: absolute;
+    top: 16px;
+    right: 48px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+  
+    &:hover {
+      color: #f00;
+    }
+  }
+
   .info-bar {
     margin-left: 10px;
     width: 500px;

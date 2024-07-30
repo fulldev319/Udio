@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MdPlayArrow, MdPause, MdFastForward, MdFastRewind } from 'react-icons/md';
+import { MdPlayArrow, MdPause, MdFastForward, MdFastRewind, MdClose } from 'react-icons/md';
 import { Song } from '../../shared/types';
 import './PlayBar.scss';
 
 interface PlayBarProps {
   song: Song;
+  onClose: () => void; // Add this prop for closing the PlayBar
 }
 
-const PlayBar: React.FC<PlayBarProps> = ({ song }) => {
+const PlayBar: React.FC<PlayBarProps> = ({ song, onClose }) => {
   const [playProgress, setPlayProgress] = useState<number>(0);
   const [playing, setPlaying] = useState<boolean>(false);
 
@@ -93,6 +94,9 @@ const PlayBar: React.FC<PlayBarProps> = ({ song }) => {
 
   return (
     <div className="play-bar">
+      <button className="close-button" onClick={onClose}>
+        <MdClose />
+      </button>
       <img
         className="album-art"
         src={"http://localhost:8000/api/static/" + song.album_art_path}

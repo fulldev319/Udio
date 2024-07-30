@@ -54,6 +54,10 @@ function App() {
     setSelectedSong(index);
   };
 
+  const handleClosePlayBar = () => {
+    setSelectedSong(null);
+  };
+
   const handleScroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       if (page < totalPages && !isLoading) {
@@ -75,7 +79,7 @@ function App() {
           <Route path="/" element={
             <div className="main-section">
               <SongList songs={songs} onSelect={handleSelectSong} onAddToPlaylist={handleAddToPlaylist} />
-              {isLoggedIn && selectedSong !== null ? <PlayBar song={songs[selectedSong]} /> : null}
+              {isLoggedIn && selectedSong !== null ? <PlayBar song={songs[selectedSong]} onClose={handleClosePlayBar} /> : null}
               {playlist.length > 0 && <PlayList songs={playlist} onSelect={handleSelectPlaylistSong} onRemove={handleRemoveFromPlaylist} />}
               {isLoading && <div className="loading-indicator">Loading...</div>}
             </div>
