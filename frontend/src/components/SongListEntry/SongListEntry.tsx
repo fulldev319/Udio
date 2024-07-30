@@ -9,8 +9,18 @@ interface SongListEntryProps {
 }
 
 function SongListEntry({ song, onSelect, onAddToPlaylist }: SongListEntryProps) {
+  const isLoggedIn = !!localStorage.getItem('token');
+
+  const handleSongClick = () => {
+    if (isLoggedIn) {
+      onSelect();
+    } else {
+      alert('Please log in to listen to music.');
+    }
+  };
+
   return (
-    <div className="song-list-entry" onClick={onSelect}>
+    <div className="song-list-entry" onClick={handleSongClick}>
       <img
         className="album-art"
         src={"http://localhost:8000/api/static/" + song.album_art_path}
